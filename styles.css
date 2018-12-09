@@ -9,6 +9,7 @@ body {
     /* https://commons.wikimedia.org/wiki/File:PIA17944-MarsCuriosityRover-AfterCrossingDingoGapSanddune-20140209.jpg */
   background-size: cover;
   background-position: center;
+  background-attachment: fixed;
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -28,7 +29,7 @@ hr {
   max-width: 500px;
   margin-bottom: 30px;
 }
-p {
+.text {
   margin: 10px 0;
   font-size: 24px;
   text-align: center;
@@ -39,6 +40,30 @@ em {
   text-shadow: 0 0 3px rgba(255, 255, 255, 0.7);
   text-transform: uppercase;
   letter-spacing: 3px;
+}
+button {
+  -webkit-appearance: none;
+  border: none;
+  background: none;
+  border-radius: 0;
+  background-color: rgba(255, 255, 255, 0.1);
+  font: inherit;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 10px;
+  color: white;
+  position: relative;
+  overflow: hidden;
+  -webkit-tap-highlight-color: transparent;
+  transition: all .5s;
+}
+button:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  letter-spacing: 5px;
+  text-shadow: 0 0 10px white, 0 0 5px white;
+}
+button:focus {
+  outline: none;
 }
 .button-set {
   width: 100%;
@@ -51,33 +76,12 @@ em {
 }
 .button-set button {
   flex: 1;
-  -webkit-appearance: none;
-  border: none;
-  background: none;
-  border-radius: 0;
-  background-color: rgba(255, 255, 255, 0.1);
-  font: inherit;
-  font-size: 20px;
-  cursor: pointer;
-  transition: all .5s;
-  padding: 10px;
-  color: white;
-  position: relative;
-  overflow: hidden;
   border-left: 1px solid rgba(255, 255, 255, 0.8);
-  -webkit-tap-highlight-color: transparent;
   text-transform: uppercase;
+  font-size: 20px;
 }
 .button-set button:first-child {
   border: none;
-}
-.button-set button:hover {
-  background-color: rgba(255, 255, 255, 0.2);
-  letter-spacing: 5px;
-  text-shadow: 0 0 10px white, 0 0 5px white;
-}
-.button-set button:focus {
-  outline: none;
 }
 @media (max-width: 500px) {
 
@@ -103,9 +107,98 @@ em {
   background-color: rgba(255, 255, 255, 0.2);
   z-index: -1;
 }
-.hidden {
-  display: none;
-}
 ::selection {
   background: rgba(0, 0, 0, 0.4);
+}
+.shop {
+  display: flex;
+  width: 100%;
+  max-width: 600px;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  border-radius: 5px;
+  margin: 20px 0;
+}
+.photo {
+  flex: none;
+  min-height: 200px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 150px;
+  width: 35%;
+  border-right: 1px solid rgba(255, 255, 255, 0.8);
+}
+#jellyfish {
+  background-image: url('./images/jellyfish.svg');
+}
+.shop-content {
+  padding: 10px;
+}
+.name {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 12px;
+  text-transform: uppercase;
+  margin: 0;
+}
+.shop-message {
+  font-size: 24px;
+  margin: 0;
+}
+.shop-btn {
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  border-radius: 5px;
+  width: 100%;
+  margin-top: 10px;
+  font-size: 20px;
+  padding: 5px;
+}
+.shop-btn:hover {
+  letter-spacing: 2px;
+}
+@media (max-width: 600px) {
+
+  .shop {
+    display: block;
+  }
+  .photo {
+    border-right: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.8);
+    width: 100%;
+    min-height: 100px;
+    background-size: 75px;
+  }
+
+}
+.enter-anim {
+  animation: come-in 1s;
+}
+@keyframes come-in {
+  from { transform: translateY(50px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+.message {
+  animation: come-in-from-top .2s, leave-to-top 1s 2s;
+  height: 40px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  font-size: 20px;
+  text-align: center;
+  padding: 10px;
+  line-height: 1;
+  box-sizing: border-box;
+}
+@keyframes come-in-from-top {
+  from { transform: translateY(-40px); opacity: 0; }
+  to   { transform: translateY(0);     opacity: 1; }
+}
+@keyframes leave-to-top {
+  from { transform: translateY(0);     opacity: 1; }
+  to   { transform: translateY(-40px); opacity: 0; }
+}
+
+.hidden {
+  display: none;
 }
