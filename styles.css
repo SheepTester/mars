@@ -1,0 +1,111 @@
+html {
+  width: 100%;
+  height: 100%;
+}
+body {
+  margin: 10px;
+  font-size: 0;
+  background-image: url('./images/blurry-mars.png');
+    /* https://commons.wikimedia.org/wiki/File:PIA17944-MarsCuriosityRover-AfterCrossingDingoGapSanddune-20140209.jpg */
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  color: white;
+  font-family: 'Roboto', sans-serif;
+}
+hr {
+  border: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.5);
+  width: 50%;
+  max-width: 300px;
+  margin: 10px 0;
+}
+.logo {
+  width: 90%;
+  margin-top: 10%;
+  max-width: 500px;
+  margin-bottom: 30px;
+}
+p {
+  margin: 10px 0;
+  font-size: 24px;
+  text-align: center;
+}
+em {
+  font-style: normal;
+  color: rgba(255, 255, 255, 0.7);
+  text-shadow: 0 0 3px rgba(255, 255, 255, 0.7);
+  text-transform: uppercase;
+  letter-spacing: 3px;
+}
+.button-set {
+  width: 100%;
+  max-width: 500px;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  display: flex;
+  border-radius: 5px;
+  overflow: hidden;
+  flex-wrap: wrap;
+}
+.button-set button {
+  flex: 1;
+  -webkit-appearance: none;
+  border: none;
+  background: none;
+  border-radius: 0;
+  background-color: rgba(255, 255, 255, 0.1);
+  font: inherit;
+  font-size: 20px;
+  cursor: pointer;
+  transition: all .5s;
+  padding: 10px;
+  color: white;
+  position: relative;
+  overflow: hidden;
+  border-left: 1px solid rgba(255, 255, 255, 0.8);
+  -webkit-tap-highlight-color: transparent;
+  text-transform: uppercase;
+}
+.button-set button:first-child {
+  border: none;
+}
+.button-set button:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  letter-spacing: 5px;
+  text-shadow: 0 0 10px white, 0 0 5px white;
+}
+.button-set button:focus {
+  outline: none;
+}
+@media (max-width: 500px) {
+
+  .button-set {
+    display: block;
+  }
+  .button-set button {
+    display: block;
+    border-left: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.8);
+    width: 100%;
+  }
+
+}
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  width: 10px;
+  height: 10px;
+  margin: -5px;
+  pointer-events: none;
+  transform-origin: center;
+  background-color: rgba(255, 255, 255, 0.2);
+  z-index: -1;
+}
+.hidden {
+  display: none;
+}
+::selection {
+  background: rgba(0, 0, 0, 0.4);
+}
