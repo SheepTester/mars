@@ -37,6 +37,7 @@ const battle = {
   SCALE: 8,
   PLAYER_WIDTH: 5,
   PLAYER_SPEED: 0.5,
+  VEXILENT_MAGNITUDE: 20,
   enemies: {
     tree: {
       health: 20, damage: 0, speed: 0, name: 'Tree', weapon: 'none',
@@ -45,6 +46,16 @@ const battle = {
         if (initians) {
           loot.initians += initians;
           log(`The tree <em>rematerialized</em> into ${initians} initian(s).`);
+        }
+      }
+    },
+    ogre: {
+      health: 50, damage: 10, speed: 60, name: 'Ogre', weapon: 'fat',
+      onDestroy(loot, log) {
+        const initians = Math.floor(Math.random() * 10 + 10);
+        if (initians) {
+          loot.initians += initians;
+          log(`The ogre <em>decompositionified</em> into ${initians} initian(s).`);
         }
       }
     }
@@ -169,6 +180,11 @@ function startBattle(length, map) {
       clearTimeout(timeout);
       end(false);
     };
+    battle.onheal = () => {
+      health += battle.VEXILENT_MAGNITUDE;
+      elem.playerHealth.style.setProperty('--health', (health * 100 / stats.maxHealth) + '%');
+      log('You <em>consume</em> a vexilent.');
+    };
   });
 }
 
@@ -221,6 +237,9 @@ function init() {
   elem.forestQuest = document.getElementById('forest-quest');
   elem.embarkForest = document.getElementById('embark-forest');
   elem.fleeBtn = document.getElementById('flee');
+  elem.consumeVexilent = document.getElementById('consume-vexilent');
+  elem.ogreForestQuest = document.getElementById('ogre-forest-quest');
+  elem.embarkOgreForest = document.getElementById('embark-ogre-forest');
 
   elem.submitInitians.addEventListener('click', e => {
     stats.submittedInitians += stats.initians;
@@ -242,6 +261,7 @@ function init() {
         state.vexilentWrapper = true;
         elem.vexilentWrapper.classList.remove('hidden');
         elem.vexilentWrapper.classList.add('enter-anim');
+        elem.consumeVexilent.classList.remove('hidden');
       }
     }
   });
@@ -276,10 +296,29 @@ function init() {
     for (let x = Math.floor(Math.random() * 15 + 5); x < 180; x += Math.floor(Math.random() * 30 + 10)) {
       trees.push(['tree', x]);
     }
-    startBattle(200, trees);
+    startBattle(200, trees).then(result => {
+      if (result && !state.ogreForest) {
+        state.ogreForest = true;
+        elem.ogreForestQuest.classList.remove('hidden');
+        elem.ogreForestQuest.classList.add('enter-anim');
+      }
+    });
   });
   elem.fleeBtn.addEventListener('click', e => {
     if (battle.onflee) battle.onflee();
+  });
+  elem.consumeVexilent.addEventListener('click', e => {
+    if (battle.onheal && stats.vexilents > 0) {
+      battle.onheal();
+      elem.vexilentDisplay.textContent = --stats.vexilents;
+    }
+  });
+  elem.embarkOgreForest.addEventListener('click', e => {
+    const trees = [];
+    for (let x = Math.floor(Math.random() * 15 + 5); x < 180; x += Math.floor(Math.random() * 20 + 10)) {
+      trees.push([Math.random() < 0.5 ? 'ogre' : 'tree', x]);
+    }
+    startBattle(200, trees);
   });
 
   setInterval(() => {

@@ -134,6 +134,7 @@ option {
 }
 #jellyfish { background-image: url('./images/jellyfish.svg'); }
 #forest { background-image: url('./images/forest.svg'); }
+#ogre-forest { background-image: url('./images/ogre-forest.svg'); }
 .shop-content {
   padding: 10px;
 }
@@ -297,6 +298,7 @@ option {
 }
 .battle-player { background-image: url('./images/player.svg'); }
 .battle-tree { background-image: url('./images/tree.svg'); }
+.battle-ogre { background-image: url('./images/ogre.svg'); }
 .battle-info {
   position: absolute;
   top: 100%;
@@ -363,6 +365,7 @@ option {
   border-radius: 3px;
   text-transform: uppercase;
   transition: all .2s;
+  margin: 0 5px;
 }
 .battle-btn:hover {
   letter-spacing: 0;
