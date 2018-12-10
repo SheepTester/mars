@@ -41,8 +41,7 @@ em {
   text-transform: uppercase;
   letter-spacing: 3px;
 }
-button {
-  -webkit-appearance: none;
+button, select {
   border: none;
   background: none;
   border-radius: 0;
@@ -57,13 +56,19 @@ button {
   -webkit-tap-highlight-color: transparent;
   transition: all .5s;
 }
+button {
+  -webkit-appearance: none;
+}
 button:hover {
   background-color: rgba(255, 255, 255, 0.2);
   letter-spacing: 5px;
   text-shadow: 0 0 10px white, 0 0 5px white;
 }
-button:focus {
+button:focus, select:focus {
   outline: none;
+}
+option {
+  background-color: black;
 }
 .button-set {
   width: 100%;
@@ -127,13 +132,12 @@ button:focus {
   width: 35%;
   border-right: 1px solid rgba(255, 255, 255, 0.8);
 }
-#jellyfish {
-  background-image: url('./images/jellyfish.svg');
-}
+#jellyfish { background-image: url('./images/jellyfish.svg'); }
+#forest { background-image: url('./images/forest.svg'); }
 .shop-content {
   padding: 10px;
 }
-.name {
+.shop-name {
   color: rgba(255, 255, 255, 0.5);
   font-size: 12px;
   text-transform: uppercase;
@@ -155,9 +159,55 @@ button:focus {
 .shop-btn:hover {
   letter-spacing: 2px;
 }
+.battle-place {
+  display: flex;
+  width: 100%;
+  max-width: 400px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 5px;
+  margin: 20px 0;
+  background: rgba(0, 0, 0, 0.8);
+  box-shadow: 0 5px 40px rgba(0, 0, 0, 0.5);
+}
+.place-icon {
+  background-size: 70px;
+  border-right-color: rgba(255, 255, 255, 0.3);
+  min-height: 150px;
+}
+.place-content {
+  padding: 15px;
+}
+.quest-label {
+  text-transform: uppercase;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.5);
+}
+.place-name {
+  font-size: 24px;
+  margin: 0;
+}
+.place-desc {
+  font-size: 18px;
+  margin: 5px 0;
+  margin-bottom: 15px;
+}
+.place-btn {
+  width: 150px;
+  margin: 0 auto;
+  display: block;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  border-radius: 5px;
+  font-size: 20px;
+  text-transform: uppercase;
+  background-color: transparent;
+  z-index: 0;
+}
+.place-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
 @media (max-width: 600px) {
 
-  .shop {
+  .shop, .battle-place {
     display: block;
   }
   .photo {
@@ -165,7 +215,12 @@ button:focus {
     border-bottom: 1px solid rgba(255, 255, 255, 0.8);
     width: 100%;
     min-height: 100px;
-    background-size: 75px;
+    background-size: auto 75px;
+  }
+  .place-icon {
+    background-size: auto 35px;
+    border-bottom-color: rgba(255, 255, 255, 0.3);
+    min-height: 50px;
   }
 
 }
@@ -177,7 +232,7 @@ button:focus {
   to   { transform: translateY(0);    opacity: 1; }
 }
 .message {
-  animation: come-in-from-top .2s, leave-to-top 1s 2s;
+  animation: come-in-from-top .2s, leave-to-top 1s 2s forwards;
   height: 40px;
   position: fixed;
   top: 0;
@@ -197,6 +252,126 @@ button:focus {
 @keyframes leave-to-top {
   from { transform: translateY(0);     opacity: 1; }
   to   { transform: translateY(-40px); opacity: 0; }
+}
+.battle {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: black;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  transition: all .5s;
+}
+.effectively-gone {
+  transform: scale(1.5);
+  opacity: 0;
+  pointer-events: none;
+}
+.battle ::selection, .battle-place ::selection {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+.battleground-wrapper {
+  position: relative;
+  height: 70px;
+}
+.battleground {
+  width: 500px;
+  border-bottom: 1px solid white;
+  position: absolute;
+  left: 0;
+}
+.battle-object {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 40px;
+  height: 64px;
+}
+.battle-player { background-image: url('./images/player.svg'); }
+.battle-tree { background-image: url('./images/tree.svg'); }
+.battle-info {
+  position: absolute;
+  top: 100%;
+  left: 20%;
+  margin-top: 5px;
+  width: 200px;
+  animation: come-in .5s;
+}
+.name {
+  font-weight: bold;
+}
+.battle-info p {
+  font-size: 16px;
+  margin: 0;
+}
+.health {
+  display: block;
+  width: 100px;
+  background-color: rgba(255, 255, 255, 0.5);
+  height: 1px;
+}
+.health::before {
+  width: var(--health);
+  background-color: white;
+  content: '';
+  display: block;
+  height: 100%;
+}
+.battle-player .battle-info {
+  left: auto;
+  right: 20%;
+  text-align: right;
+}
+.battle-player .health {
+  margin-left: auto;
+}
+.battle-dead {
+  animation: fade-out .5s forwards;
+}
+@keyframes fade-out {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+.log {
+  width: 100%;
+  max-width: 500px;
+  padding: 0 10px;
+  box-sizing: border-box;
+  height: 100px;
+}
+.log p {
+  font-size: 16px;
+  margin: 0;
+  margin-bottom: 10px;
+}
+.battle-btn-wrapper {
+  margin-bottom: 100px;
+}
+.battle-btn {
+  font-size: 12px;
+  padding: 2px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background-color: transparent;
+  border-radius: 3px;
+  text-transform: uppercase;
+  transition: all .2s;
+}
+.battle-btn:hover {
+  letter-spacing: 0;
+  text-shadow: none;
+}
+#weapon {
+  border-radius: 5px;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  padding: 5px 15px;
 }
 
 .hidden {

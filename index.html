@@ -14,6 +14,23 @@
     <script src="./game.js" charset="utf-8"></script>
   </head>
   <body>
+    <div class="battle effectively-gone" id="battle-wrapper">
+      <div class="battle-btn-wrapper">
+        <button class="battle-btn ripples" id="flee">flee</button>
+      </div>
+      <div class="battleground-wrapper">
+        <div class="battleground" id="battleground">
+          <div class="battle-object battle-player" id="player">
+            <div class="battle-info">
+              <p class="name">You</p>
+              <span class="health" id="player-health"></span>
+              <p>Weapon: <span id="player-weapon">anglonne</span></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="log" id="log"></div>
+    </div>
     <img src="./images/logo.svg" alt="MARS" class="logo">
     <hr>
     <p class="text">You have <em>synthesized</em> <strong id="initian-count">0</strong> initian(s).</p>
@@ -24,10 +41,22 @@
     <div class="shop hidden" id="jellyfish-shop">
       <div class="photo" id="jellyfish"></div>
       <div class="shop-content">
-        <p class="name">abstract jellyfish</p>
+        <p class="shop-name">abstract jellyfish</p>
         <p class="shop-message">An abstract jellyfish <em>materializes</em> in the air and offers some <em>things</em> in exchange for some initians.</p>
         <button class="shop-btn ripples" id="buy-vexilent">a vexilent (62 init.)</button>
-        <button class="shop-btn ripples" id="buy-anglonne">an anglonne (137 init.)</button>
+        <button class="shop-btn ripples" id="buy-anglonne"><span id="weapon-price">an anglonne (137 init.)</span></button>
+      </div>
+    </div>
+    <p class="text hidden" id="vexilent-count-wrapper">You have <strong id="vexilent-count">0</strong> vexilent(s).</p>
+    <!-- TODO: better UI that shows stats -->
+    <p class="text hidden" id="weapon-wrapper">Weapon: <select id="weapon"></select></p>
+    <div class="battle-place hidden" id="forest-quest">
+      <div class="photo place-icon" id="forest"></div>
+      <div class="place-content">
+        <p class="shop-name">quest</p>
+        <p class="place-name">Ordinary Forest</p>
+        <p class="place-desc">There're only trees, and they don't hurt.</p>
+        <button class="place-btn ripples" id="embark-forest">embark</button>
       </div>
     </div>
   </body>
