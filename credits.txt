@@ -1,0 +1,5 @@
+Logo font is Montserrat Thin https://fonts.google.com/specimen/Montserrat
+
+Content font is Roboto Thin https://fonts.google.com/specimen/Roboto
+
+Background is blurred version of some Martian photo from NASA https://commons.wikimedia.org/wiki/File:PIA17944-MarsCuriosityRover-AfterCrossingDingoGapSanddune-20140209.jpg

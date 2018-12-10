@@ -1,4 +1,4 @@
-const stats = {
+let stats = {
   initians: 0,
   submittedInitians: 0,
   vexilents: 0,
@@ -11,9 +11,11 @@ const stats = {
   submittedDisplay: false,
   jellyfishShop: false,
   vexilentDisplay: false,
-  weaponSelect: false,
-  forestQuest: false
-}, elem = {};
+  weaponWrapper: false,
+  forestQuest: false,
+  ogreForest: false
+};
+const elem = {};
 
 const PRICES = {
   vexilent: 62,
@@ -32,6 +34,9 @@ const WEAPONS = {
   effigine: {name: 'effigine', damage: 10, speed: 30},
   impossiblus: {name: 'impossiblus', damage: 100000, speed: 1}
 };
+
+const COOKIE_NAME = '[mars] save';
+const VERSION = 1;
 
 const battle = {
   SCALE: 8,
@@ -258,7 +263,7 @@ function init() {
       elem.initianDisplay.textContent = stats.initians;
       elem.vexilentDisplay.textContent = ++stats.vexilents;
       if (!state.vexilentDisplay) {
-        state.vexilentWrapper = true;
+        state.vexilentDisplay = true;
         elem.vexilentWrapper.classList.remove('hidden');
         elem.vexilentWrapper.classList.add('enter-anim');
         elem.consumeVexilent.classList.remove('hidden');
@@ -271,11 +276,11 @@ function init() {
       stats.initians -= PRICES[JELLYFISH_WEAPONS[stats.weaponStage][0]];
       elem.initianDisplay.textContent = stats.initians;
       stats.weapons.push(JELLYFISH_WEAPONS[stats.weaponStage][0]);
+      stats.weapon = JELLYFISH_WEAPONS[stats.weaponStage][0];
       generateWeaponsList();
-      stats.weapon = elem.weaponSelect.value = JELLYFISH_WEAPONS[stats.weaponStage][0];
       stats.weaponStage++;
       elem.weaponPrice.textContent = `${JELLYFISH_WEAPONS[stats.weaponStage][1]} (${PRICES[JELLYFISH_WEAPONS[stats.weaponStage][0]]} init.)`;
-      if (!state.weaponSelect) {
+      if (!state.weaponWrapper) {
         state.weaponWrapper = true;
         elem.weaponWrapper.classList.remove('hidden');
         elem.weaponWrapper.classList.add('enter-anim');
@@ -334,7 +339,53 @@ function init() {
       elem.jellyfishShop.classList.add('enter-anim');
     }
   }, 1000);
+  // setInterval(() => {
+  //   localStorage.setItem(COOKIE_NAME, JSON.stringify({
+  //     version: VERSION,
+  //     stats: stats,
+  //     state: state
+  //   }));
+  //   message('Saved.');
+  // }, 10000);
 
   generateWeaponsList();
+  if (navigator.platform.includes('Win')) document.body.classList.add('windows');
+
+  if (localStorage.getItem(COOKIE_NAME)) {
+    const json = JSON.parse(localStorage.getItem(COOKIE_NAME));
+    switch (json.version) {
+      case VERSION:
+        stats = json.stats;
+        state = json.state;
+        loadState();
+        break;
+      default:
+        prompt('Your save code is outdated! Please send the following to Sean and he might be able to fix it:',
+          localStorage.getItem(COOKIE_NAME));
+    }
+  }
+}
+function loadState() {
+  elem.submittedDisplay.textContent = stats.submittedInitians;
+  elem.initianDisplay.textContent = stats.initians;
+  elem.vexilentDisplay.textContent = stats.vexilents;
+  elem.weaponPrice.textContent = `${JELLYFISH_WEAPONS[stats.weaponStage][1]} (${PRICES[JELLYFISH_WEAPONS[stats.weaponStage][0]]} init.)`;
+  generateWeaponsList();
+  if (state.submittedDisplay)
+    elem.submittedWrapper.classList.remove('hidden');
+  if (state.vexilentDisplay) {
+    elem.vexilentWrapper.classList.remove('hidden');
+    elem.consumeVexilent.classList.remove('hidden');
+  }
+  if (state.weaponSelect)
+    elem.weaponWrapper.classList.remove('hidden');
+  if (state.forestQuest)
+    elem.forestQuest.classList.remove('hidden');
+  if (state.ogreForest)
+    elem.ogreForestQuest.classList.remove('hidden');
+  if (state.submitInitiansBtn)
+    elem.initianBtns.classList.remove('hidden');
+  if (state.jellyfishShop)
+    elem.jellyfishShop.classList.remove('hidden');
 }
 document.addEventListener('DOMContentLoaded', init, {once: true});

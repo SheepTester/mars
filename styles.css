@@ -376,6 +376,36 @@ option {
   border: 1px solid rgba(255, 255, 255, 0.8);
   padding: 5px 15px;
 }
+.windows::-webkit-scrollbar {
+  width: 5px !important;
+}
+.windows::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.8) !important;
+  border-radius: 0 !important;
+}
+.windows::-webkit-scrollbar-track {
+  background-color: transparent !important;
+  background-image: url('./images/blurry-mars.png');
+  background-position: right center;
+  background-size: cover;
+}
+.footer {
+  margin-top: 75%;
+  text-align: center;
+}
+.footer a {
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+}
+.footer a:hover {
+  text-decoration: underline;
+}
+.footer .middot {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 16px;
+  margin: 0 5px;
+}
 
 .hidden {
   display: none;
