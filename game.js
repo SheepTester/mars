@@ -18,9 +18,9 @@ let stats = {
 const elem = {};
 
 const PRICES = {
-  vexilent: 62,
-  anglonne: 137,
-  effigine: 468,
+  vexilent: 37,
+  anglonne: 62,
+  effigine: 116,
   impossiblus: 789234576
 };
 const JELLYFISH_WEAPONS = [
@@ -113,17 +113,23 @@ function startBattle(length, map) {
       health: battle.enemies[map[0][0]].health,
       healthDisplay: firstEnemyHealth
     };
-    function end(success) {
-      elem.battleWrapper.classList.add('effectively-gone');
-      setTimeout(() => {
-        Array.from(elem.battleground.children).forEach(b => b !== elem.player && elem.battleground.removeChild(b));
-        elem.log.innerHTML = '';
-      }, 500);
+    let timerWorker;
+    function end(success, death = false) {
+      timerWorker.terminate();
       if (success) {
         stats.initians += loot.initians;
         elem.initianDisplay.textContent = stats.initians;
+      } else if (death) {
+        log('You have been defeated.');
       }
       res(success);
+      setTimeout(() => {
+        elem.battleWrapper.classList.add('effectively-gone');
+        setTimeout(() => {
+          Array.from(elem.battleground.children).forEach(b => b !== elem.player && elem.battleground.removeChild(b));
+          elem.log.innerHTML = '';
+        }, 500);
+      }, death ? 1500 : 0);
     }
     function log(msg) {
       msg = createElement('p', {html: msg});
@@ -136,7 +142,8 @@ function startBattle(length, map) {
         if (frame % nextEnemy.data.speed === 0) {
           health -= nextEnemy.data.damage;
           if (health <= 0) {
-            end(false);
+            elem.playerHealth.style.setProperty('--health', 0);
+            end(false, true);
             return;
           } else {
             elem.playerHealth.style.setProperty('--health', (health * 100 / stats.maxHealth) + '%');
@@ -175,14 +182,13 @@ function startBattle(length, map) {
           return;
         } else if (nextEnemy && x + battle.PLAYER_WIDTH > map[nextEnemy.index][1]) fighting = true;
       }
-      timeout = setTimeout(nextFrame, 1000 / 60); // not monitor dependent and it works while not on tab
     }
     let timeout = setTimeout(() => {
       mapElems[0].appendChild(firstEnemyIndicator);
-      nextFrame();
+      timerWorker = new Worker('timer.js');
+      timerWorker.addEventListener('message', nextFrame);
     }, 500);
     battle.onflee = () => {
-      clearTimeout(timeout);
       end(false);
     };
     battle.onheal = () => {
@@ -339,14 +345,14 @@ function init() {
       elem.jellyfishShop.classList.add('enter-anim');
     }
   }, 1000);
-  // setInterval(() => {
-  //   localStorage.setItem(COOKIE_NAME, JSON.stringify({
-  //     version: VERSION,
-  //     stats: stats,
-  //     state: state
-  //   }));
-  //   message('Saved.');
-  // }, 10000);
+  setInterval(() => {
+    localStorage.setItem(COOKIE_NAME, JSON.stringify({
+      version: VERSION,
+      stats: stats,
+      state: state
+    }));
+    message('Saved.');
+  }, 10000);
 
   generateWeaponsList();
   if (navigator.platform.includes('Win')) document.body.classList.add('windows');
@@ -377,7 +383,7 @@ function loadState() {
     elem.vexilentWrapper.classList.remove('hidden');
     elem.consumeVexilent.classList.remove('hidden');
   }
-  if (state.weaponSelect)
+  if (state.weaponWrapper)
     elem.weaponWrapper.classList.remove('hidden');
   if (state.forestQuest)
     elem.forestQuest.classList.remove('hidden');
